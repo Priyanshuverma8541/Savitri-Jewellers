@@ -1,0 +1,17 @@
+.chats{
+    background-color: aqua;
+    border: solid 2px red;
+    /* display: flex;
+    justify-content: space-around; */
+}
+body{
+    background-color: green;
+    font-size: large;
+}
+.flex{
+    display: flex;
+    justify-content: space-between;
+}
+.heading{
+    color:chartreuse;
+}
