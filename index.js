@@ -4,6 +4,7 @@ const mongoose=require('mongoose')
 const path=require('path')
 const Chat=require("./models/chat.js")
 const methodOverride=require("method-override")
+const PORT = process.env.PORT || 8080;
 
 app.set("views",path.join(__dirname,"views"))
 app.set("views engine","ejs");
@@ -89,6 +90,6 @@ app.delete("/chats/:id", async (req,res)=>{
     res.redirect("/chats")
 })
 
-app.listen(8080,()=>{
+app.listen(PORT,()=>{
     console.log("server is connected to port 8080")
 })
