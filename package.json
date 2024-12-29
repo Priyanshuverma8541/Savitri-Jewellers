@@ -3,8 +3,8 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "dev": "nodemon index.js",        
-    "start": "node index.js",         
+    "dev": "nodemon index.js",
+    "start": "node index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
@@ -12,10 +12,10 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
-    "dotenv": "^16.0.3",             
+    "dotenv": "^16.4.7",
     "ejs": "^3.1.10",
     "express": "^4.21.0",
     "method-override": "^3.0.0",
-    "mongoose": "^7.0.0"             
+    "mongoose": "^7.0.0"
   }
 }
