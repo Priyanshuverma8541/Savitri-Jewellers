@@ -1,26 +1,25 @@
-const mongoose=require('mongoose')
+const mongoose = require('mongoose');
 
-const chatSchema=new mongoose.Schema({
-    from:{
-        type:String,
-        required:true
+const chatSchema = new mongoose.Schema({
+    from: {
+        type: String,
+        required: true
     },
-    to:{
-        type:String,
-        required:true
+    to: {
+        type: String,
+        required: true
     },
-    msg:{
-        type:String,
-        maxLength:50
+    msg: {
+        type: String,
+        maxLength: 50
     },
-    created_at:{
-        type:Date,
-        required:true
-        
+    created_at: {
+        type: Date,
+        required: true,
+        default: Date.now // Set default to current date if not provided
     }
+});
 
-})
+const Chat = mongoose.model('Chat', chatSchema);
 
-const Chat=mongoose.model("Chat",chatSchema)
-
-module.exports=Chat
+module.exports = Chat;

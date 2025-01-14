@@ -10,22 +10,20 @@ dotenv.config();
 const app = express();
 const PORT = process.env.PORT || 8080;
 
-// Middleware for MongoDB connection
-let isConnected = false; // Track the connection status
+// MongoDB Connection
+const dburl = process.env.MONGO_URI;
 async function connectDB() {
-    if (!isConnected) {
-        try {
-            await mongoose.connect(process.env.MONGO_URI, {
-                useNewUrlParser: true,
-                useUnifiedTopology: true,
-            });
-            isConnected = true;
-            console.log("MongoDB connection successful");
-        } catch (error) {
-            console.error("MongoDB connection error:", error);
-        }
+    try {
+        await mongoose.connect(dburl, { useNewUrlParser: true, useUnifiedTopology: true });
+        console.log("Connected to MongoDB");
+    } catch (err) {
+        console.error("Failed to connect to MongoDB", err);
+        process.exit(1); // Exit process if DB connection fails
     }
 }
+
+// Connect to DB before starting the server
+connectDB();
 
 // Middleware
 app.set("views", path.join(__dirname, "views"));
@@ -41,7 +39,6 @@ app.get("/", (req, res) => {
 });
 
 app.get('/chats', async (req, res) => {
-    await connectDB(); // Ensure DB connection
     try {
         const chats = await Chat.find();
         res.render('index', { chats });
@@ -56,10 +53,12 @@ app.get("/chats/new", (req, res) => {
 });
 
 app.get("/chats/:id/edit", async (req, res) => {
-    await connectDB();
     const { id } = req.params;
     try {
         const chat = await Chat.findById(id);
+        if (!chat) {
+            return res.status(404).send("Chat not found");
+        }
         res.render('edit', { chat });
     } catch (err) {
         console.error("Error fetching chat:", err);
@@ -68,7 +67,6 @@ app.get("/chats/:id/edit", async (req, res) => {
 });
 
 app.post("/chats", async (req, res) => {
-    await connectDB();
     const { from, to, msg } = req.body;
     const newChat = new Chat({ from, to, msg, created_at: new Date() });
 
@@ -83,7 +81,6 @@ app.post("/chats", async (req, res) => {
 });
 
 app.put("/chats/:id", async (req, res) => {
-    await connectDB();
     const { id } = req.params;
     const { msg: newMsg } = req.body;
 
@@ -93,7 +90,10 @@ app.put("/chats/:id", async (req, res) => {
             { msg: newMsg },
             { runValidators: true, new: true }
         );
-        console.log(updatedChat);
+        if (!updatedChat) {
+            return res.status(404).send("Chat not found");
+        }
+        console.log("Chat updated:", updatedChat);
         res.redirect("/chats");
     } catch (err) {
         console.error("Error updating chat:", err);
@@ -102,12 +102,14 @@ app.put("/chats/:id", async (req, res) => {
 });
 
 app.delete("/chats/:id", async (req, res) => {
-    await connectDB();
     const { id } = req.params;
 
     try {
-        const deleteChat = await Chat.findByIdAndDelete(id);
-        console.log(deleteChat);
+        const deletedChat = await Chat.findByIdAndDelete(id);
+        if (!deletedChat) {
+            return res.status(404).send("Chat not found");
+        }
+        console.log("Chat deleted:", deletedChat);
         res.redirect("/chats");
     } catch (err) {
         console.error("Error deleting chat:", err);
@@ -119,5 +121,3 @@ app.delete("/chats/:id", async (req, res) => {
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
 });
-
-module.exports = app; // Export for Vercel
