@@ -36,7 +36,7 @@ app.use(methodOverride("_method"));
 module.exports = app;
 // Routes
 app.get("/", (req, res) => {
-    res.send("Setup is working");
+    res.render('home');
 });
 
 app.get('/chats', async (req, res) => {
