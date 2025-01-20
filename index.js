@@ -32,7 +32,8 @@ app.set("view engine", "ejs");
 app.use(express.static(path.join(__dirname, "public")));
 app.use(express.urlencoded({ extended: true }));
 app.use(methodOverride("_method"));
-
+// Export the app (for serverless deployment)
+module.exports = app;
 // Routes
 app.get("/", (req, res) => {
     res.send("Setup is working");
