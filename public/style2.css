@@ -1,0 +1,139 @@
+/* .chats{
+    background-color: aqua;
+    border: solid 2px red;
+    /* display: flex;
+    justify-content: space-around; 
+} 
+*/
+
+/* body{
+    background-color: green;
+    font-size: large;
+} */
+/* 
+.flex{
+    display: flex;
+    justify-content: space-between;
+} */
+
+/* .heading{
+    color:chartreuse;
+}  */
+
+/* 
+General Styles
+body {
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f1f5f9;
+    color: #333;
+    line-height: 1.5;
+}
+
+h3.heading {
+    text-align: center;
+    font-size: 24px;
+    color: #4caf50;
+    margin-top: 20px;
+    margin-bottom: 10px;
+    animation: fadeInDown 1s ease-in-out;
+}
+
+/* Button Styling */
+button {
+    background-color: #4caf50;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-size: 14px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+button:hover {
+    background-color: #45a049;
+    transform: scale(1.05);
+}
+
+button:active {
+    transform: scale(0.95);
+}
+
+/* Chats Container */
+.chats {
+    background: white;
+    padding: 15px;
+    margin: 10px 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    animation: fadeIn 1s ease-in-out;
+}
+
+.chats p {
+    margin: 5px 0;
+    color: #555;
+}
+
+.chats p:first-child {
+    font-weight: bold;
+    color: #333;
+}
+
+/* Flex container for buttons */
+.chats form {
+    display: inline-block;
+    margin-right: 10px;
+}
+
+.chats .chat-image {
+    max-width: 100%;
+    height: auto;
+    margin-top: 10px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* Animation for smooth entry */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeInDown {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Responsive Layout */
+@media (max-width: 600px) {
+    h3.heading {
+        font-size: 20px;
+    }
+
+    .chats {
+        margin: 10px;
+        padding: 10px;
+    }
+
+    button {
+        font-size: 12px;
+        padding: 8px 15px;
+    }
+} 
