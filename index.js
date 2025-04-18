@@ -1,22 +1,31 @@
 // Main file to start the server and connect to MongoDB
-const express = require('express');
-const mongoose = require('mongoose');
-const path = require('path');
-const methodOverride = require('method-override');
-const dotenv = require('dotenv');
-const cors = require('cors');
-const connectCloudinary = require('./config/cloudinary');
+const express = require("express");
+const mongoose = require("mongoose");
+const path = require("path");
+const methodOverride = require("method-override");
+const dotenv = require("dotenv");
+const cors = require("cors");
+const connectCloudinary = require("./config/cloudinary");
+const userRoutes = require("./routes/userRoutes");
 
 // Load environment variables
 dotenv.config();
 
-const app = express();
+const app = express(); // ✅ Declare app FIRST
 const PORT = process.env.PORT || 8080;
 
-// MongoDB Connection
-const dburl = process.env.MONGO_URI;
+// ✅ CORS Configuration (Allow Frontend Access)
+app.use(cors({
+    origin: "http://localhost:5173", // ✅ Allow frontend requests
+    methods: ["GET", "POST", "PUT", "DELETE"],
+    allowedHeaders: ["Content-Type", "Authorization"]
+}));
 
-mongoose.set('strictQuery', false);
+app.options("*", cors()); // ✅ Handle preflight requests
+
+// ✅ MongoDB Connection
+const dburl = process.env.MONGO_URI;
+mongoose.set("strictQuery", false);
 
 async function connectDB() {
     try {
@@ -28,33 +37,36 @@ async function connectDB() {
     }
 }
 
-// Middleware Setup
+// ✅ Middleware Setup
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "ejs");
 
-app.use(cors()); // Allow cross-origin requests
 app.use(express.static(path.join(__dirname, "public")));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(methodOverride("_method"));
 
-// Connect to Database and Cloudinary
+// ✅ Connect to Database and Cloudinary
 connectDB();
 connectCloudinary();
 
+// ✅ API Routes
+app.use("/api/users", userRoutes);
+app.use("/api/products", require("./routes/productRoutes"));
+app.use("/api/orders", require("./routes/orderRoutes"));
+app.use("/api/carts", require("./routes/cartRoutes"));
 
-// API Routes
-app.use('/api/users', require('./routes/userRoutes'));
-app.use('/api/products', require('./routes/productRoutes'));
-app.use('/api/orders', require('./routes/orderRoutes'));
-app.use('/api/carts', require('./routes/cartRoutes'));
+// ✅ Handle Unknown Routes (404)
+app.use((req, res) => {
+    res.status(404).json({ message: "❌ API route not found" });
+});
 
-// Start the Server
+// ✅ Start the Server
 const server = app.listen(PORT, () => {
     console.log(`🚀 Server is running on port ${PORT}`);
 });
 
-// Graceful Shutdown Handling
+// ✅ Graceful Shutdown Handling
 const shutdown = async () => {
     console.log("🛑 Server shutting down...");
     await mongoose.disconnect();
@@ -73,3 +85,4 @@ process.on("unhandledRejection", (err) => {
     console.error("⚠️ Unhandled Rejection:", err);
     process.exit(1);
 });
+
