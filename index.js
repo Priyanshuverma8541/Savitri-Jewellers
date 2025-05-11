@@ -17,7 +17,7 @@ const PORT = process.env.PORT || 8080;
 
 // ✅ CORS Configuration (Allow Frontend Access)
 app.use(cors({
-    origin: "http://localhost:5173", // ✅ Allow frontend requests
+    origin: "https://savitri-jewellers-frontend.onrender.com", // ✅ Allow frontend requests
     // origin: "http://localhost:3000",
     methods: ["GET", "POST", "PUT", "DELETE"],
     allowedHeaders: ["Content-Type", "Authorization"]
