@@ -7,6 +7,7 @@ const dotenv = require("dotenv");
 const cors = require("cors");
 const connectCloudinary = require("./config/cloudinary");
 const userRoutes = require("./routes/userRoutes");
+const paymentRoutes = require("./routes/payment");
 
 // Load environment variables
 dotenv.config();
@@ -17,6 +18,7 @@ const PORT = process.env.PORT || 8080;
 // ✅ CORS Configuration (Allow Frontend Access)
 app.use(cors({
     origin: "http://localhost:5173", // ✅ Allow frontend requests
+    // origin: "http://localhost:3000",
     methods: ["GET", "POST", "PUT", "DELETE"],
     allowedHeaders: ["Content-Type", "Authorization"]
 }));
@@ -55,6 +57,7 @@ app.use("/api/users", userRoutes);
 app.use("/api/products", require("./routes/productRoutes"));
 app.use("/api/orders", require("./routes/orderRoutes"));
 app.use("/api/carts", require("./routes/cartRoutes"));
+app.use("/api/payment", paymentRoutes);
 
 // ✅ Handle Unknown Routes (404)
 app.use((req, res) => {
